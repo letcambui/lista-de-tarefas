@@ -70,12 +70,9 @@ function adicionarTarefa(){
         const novaLista = JSON.parse(listaTarefas)
         novaLista.push(novaTarefa)
         dados.editarTarefas(novaLista)
-        
-
     } 
     else {
         dados.editarTarefas([novaTarefa])
-
     }
 }
 
@@ -83,7 +80,7 @@ const removerTarefa = (id) => {
     const tarefaDeletada = document.getElementById(id).innerHTML
     const listaTarefas = dados.pegarTarefas()
     console.log(listaTarefas)
-    const novaListaTarefa = listaTarefas.filter(tarefa => tarefa !== tarefaDeletada)
+    const novaListaTarefa = listaTarefas.filter(tarefa => tarefa.tarefa !== tarefaDeletada)
     console.log(novaListaTarefa)
     dados.editarTarefas(novaListaTarefa)
     document.querySelector('#lista-tarefas').innerHTML = ''
