@@ -1,94 +1,79 @@
 let id = 0
 
-const dados = {
-    pegarTarefas: ()  => JSON.parse(localStorage.getItem('lista-tarefas')),
-    editarTarefas: (listaTarefas) =>  localStorage.setItem('lista-tarefas', JSON.stringify(listaTarefas))
-
-}
-
 const tarefa = (id, novaTarefa) => `<div>
-<p  id='${id}'>${novaTarefa}</p>
+<p id='${id}'>${novaTarefa}</p>
 <input type="checkbox" onchange="marcarTarefa(${id})"/>
-<button onclick='removerTarefa(${id})'>Remover</button>
+<button onclick="removerTarefa(${id})">Remover</button>
 </div>`
-
 const marcarTarefa = (id) => {
-    
     const strike = document.getElementById(`strike${id}`)
-    if(strike) {
+    if(strike){
         document.getElementById(id).innerHTML = strike.innerHTML
-
-    }
-    else {
+    } else {
         const tarefaConcluida = document.getElementById(id).innerHTML
-     document.getElementById(id).innerHTML = `<strike id='strike${id}'>${tarefaConcluida}</strike>`      
+        document.getElementById(id).innerHTML = `<strike id='strike${id}'>${tarefaConcluida}</strike`
     }
 }
 
 function exibirLista() {
-    const tarefas = dados.pegarTarefas()
-    if (tarefas) {
+    const tarefas = JSON.parse(localStorage.getItem('lista-tarefas'))
+    if(tarefas){
         tarefas.forEach(tarefaListada => {
             id++
-            document.querySelector('#lista-tarefas').innerHTML += tarefa(id, tarefaListada.tarefa)
+            document.querySelector('#lista-tarefas').innerHTML += tarefa(id, tarefaListada)
         })
     }
-    
 }
 
 const validarTarefa = (novaTarefa) => {
     let tarefaExistente = false
-    const listaTarefas = dados.pegarTarefas()
+    const listaTarefas = JSON.parse(localStorage.getItem('lista-tarefas'))
 
     if(listaTarefas){
         listaTarefas.map(tarefa => {
-            if(tarefa === novaTarefa) {
+            if(tarefa === novaTarefa){
                 tarefaExistente = true
-                 alert('tarefa já existente')
+                alert('Tarefa já existente')
             }
-        })      
-            return tarefaExistente
+        })
+    
+        return tarefaExistente
     }
 }
+
 function adicionarTarefa(){
     id++
-    const novaTarefa = {
-        tarefa: document.getElementById('nome-tarefa').value,
-        finalizada: false
-
-    }        
-    const listaTarefas =  localStorage.getItem('lista-tarefas')
-    if (validarTarefa(novaTarefa)) {
+    const novaTarefa = document.getElementById('nome-tarefa').value
+    const listaTarefas = localStorage.getItem('lista-tarefas')
+    if(validarTarefa(novaTarefa)){
         return
     }
 
-    document.querySelector('#lista-tarefas').innerHTML += tarefa(id, novaTarefa.tarefa)
+    document.querySelector('#lista-tarefas').innerHTML += tarefa(id, novaTarefa)
 
-
-    if(listaTarefas) {
-        console.log(listaTarefas)
+    if(listaTarefas){
         const novaLista = JSON.parse(listaTarefas)
         novaLista.push(novaTarefa)
-        dados.editarTarefas(novaLista)
-    } 
-    else {
-        dados.editarTarefas([novaTarefa])
+        localStorage.setItem('lista-tarefas', JSON.stringify(novaLista))
+    } else {
+        localStorage.setItem('lista-tarefas', JSON.stringify([novaTarefa]))
     }
 }
 
 const removerTarefa = (id) => {
     const tarefaDeletada = document.getElementById(id).innerHTML
-    const listaTarefas = dados.pegarTarefas()
-    console.log(listaTarefas)
-    const novaListaTarefa = listaTarefas.filter(tarefa => tarefa.tarefa !== tarefaDeletada)
-    console.log(novaListaTarefa)
-    dados.editarTarefas(novaListaTarefa)
+    const listaTarefas = JSON.parse(localStorage.getItem('lista-tarefas'))
+    const novaListaTarefa = listaTarefas.filter(tarefa => tarefa !== tarefaDeletada)
+    localStorage.setItem('lista-tarefas', JSON.stringify(novaListaTarefa))
     document.querySelector('#lista-tarefas').innerHTML = ''
     exibirLista()
-
-
 }
+
 exibirLista()
+
+
+
+
 
 // const removerTarefa = (id) => {
 //     const tarefaDeletada = document.getElementById(id).innerHTML

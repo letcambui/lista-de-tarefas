@@ -1,0 +1,26 @@
+* {
+    box-sizing: border-box;
+    font-family: 'Jost', sans-serif;
+}
+
+body {
+    height: 100%;
+    margin: 0;
+    background: -webkit-linear-gradient(200deg, #ff7f9b, #dcdcdc,#ff7f9b );;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.content {
+    margin-top: 90px;    
+}
+
+.button {
+    background-color: #fff;
+    border: #ff7f9b;
+    border-radius: 10px;
+}
+
